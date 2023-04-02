@@ -51,6 +51,7 @@ if(isset($_POST["submit"]))
   $password = $_POST["password"];
   $confirmpassword = $_POST["confirm-password"];
   $errors = array();
+  $passwordHash = password_hash($password, PASSWORD_DEFAULT);
   if( empty($fullname) OR empty($email) OR empty($password) OR empty($confirmpassword))
   {
     array_push($errors, "All fields are required");
@@ -75,8 +76,25 @@ if(isset($_POST["submit"]))
       echo "<div class='alert alert-danger'>$error</div>";
     }
   }
-  else{ }
+  else{ require_once "database.php";
+    $sql = "INSERT INTO users (full_name,email,password) VALUES(?,?,?)";
+    $stmt = mysqli_stmt_init($conn);
+    $preparestmt= mysqli_stmt_prepare($stmt,$sql);
+    if($preparestmt)
+    {
+        mysqli_stmt_bind_param($stmt,"sss", $fullname,$email,$passwordHash);
+        mysqli_stmt_execute($stmt);
+        echo "<div class='alert alert-success'> You are registered successfully.</div>";
+
+    }
+    else
+    {
+        die("Something went wrong");
+    }
+    
 }
+   }
+
         ?>
 
         <form action="registration.php" method="post" >
