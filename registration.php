@@ -68,6 +68,13 @@ if(isset($_POST["submit"]))
   if($password != $confirmpassword){
     array_push( $errors, " Password does not match");
   }
+  require_once "database.php";
+  $sql = "SELECT * FROM users WHERE email = '$email'";
+ $result =  mysqli_query($conn,$sql);
+  $rowCount = mysqli_num_rows($result);
+  if( $rowCount>0){
+    array_push($errors, "Email already exists!");
+  }
 
   if( count($errors)>0)
   {
@@ -76,7 +83,7 @@ if(isset($_POST["submit"]))
       echo "<div class='alert alert-danger'>$error</div>";
     }
   }
-  else{ require_once "database.php";
+  else{ 
     $sql = "INSERT INTO users (full_name,email,password) VALUES(?,?,?)";
     $stmt = mysqli_stmt_init($conn);
     $preparestmt= mysqli_stmt_prepare($stmt,$sql);
@@ -90,12 +97,9 @@ if(isset($_POST["submit"]))
     else
     {
         die("Something went wrong");
-    }
-    
+    }   
 }
-   }
-
-        ?>
+   }    ?>
 
         <form action="registration.php" method="post" >
             <div class="form-group">
