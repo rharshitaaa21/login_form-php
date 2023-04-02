@@ -24,11 +24,12 @@
       <li class="nav-item">
         <a class="nav-link" href="#">About</a>
       </li>
+     
       <li class="nav-item">
-        <a class="nav-link" href="#">Register</a>
+        <a class="nav-link" href="./login.php">Login</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Login</a>
+        <a class="nav-link" href="#">Contact Us</a>
       </li>
    
     </ul>
@@ -69,7 +70,7 @@ if(isset($_POST["submit"]))
     array_push( $errors, " Password does not match");
   }
   require_once "database.php";
-  $sql = "SELECT * FROM users WHERE email = '$email'";
+  $sql = "SELECT * FROM users WHERE email = '$email' ";
  $result =  mysqli_query($conn,$sql);
   $rowCount = mysqli_num_rows($result);
   if( $rowCount>0){
@@ -112,7 +113,7 @@ if(isset($_POST["submit"]))
                 <input type="password"  class="form-control"name="password" placeholder="Password">
             </div>
             <div class="form-group">
-                <input type="text"  class="form-control" name="confirm-password" placeholder="Confirm Password">
+                <input type="password"  class="form-control" name="confirm-password" placeholder="Confirm Password">
             </div>
             <div class="form-group ">
                 <input type="submit" class="btn btn-success" value="Register" name="submit" >
