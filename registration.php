@@ -56,7 +56,6 @@ if(isset($_POST["submit"]))
   if( empty($fullname) OR empty($email) OR empty($password) OR empty($confirmpassword))
   {
     array_push($errors, "All fields are required");
-
   }
   if(!filter_var($email, FILTER_VALIDATE_EMAIL))
   {
@@ -66,6 +65,10 @@ if(isset($_POST["submit"]))
   {
     array_push($errors,"Password must be 8 characters long");
   }
+  if (!preg_match("/[\'^£$%&*()}{@#~?><>,|=_+!-]/", $password) )
+    {
+      array_push($errors, "Password must contain atleast one speacial character");
+    }
   if($password != $confirmpassword){
     array_push( $errors, " Password does not match");
   }
